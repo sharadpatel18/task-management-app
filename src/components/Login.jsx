@@ -2,18 +2,28 @@ import React, { useState } from "react";
 import { loginUser } from "../localstorage/authData";
 
 const Login = () => {
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [responce , setResponce] = useState('')
+  const [responceShow , setResponceShow] = useState(false)
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    loginUser(email,password);
+    const data = loginUser(email,password);
+    setResponce(data);
+    setResponceShow(true);
+
+    setInterval(()=>{
+        setResponceShow(false)
+    },5000)
   };
 
   return (
     <div className="auth-main">
       <form className="auth-container" onSubmit={handleSubmit}>
+      <div>
+            {responceShow === true ? responce : null}
+        </div>
         <div className="mb-3">
           <h1>Login</h1>
         </div>

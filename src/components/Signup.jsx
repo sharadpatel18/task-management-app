@@ -6,15 +6,26 @@ const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("viewer");
+  const [responce , setResponce] = useState('')
+  const [responceShow , setResponceShow] = useState(false)
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    createUser(name,email,password,role);
+    const data = createUser(name,email,password,role);
+    setResponce(data);
+    setResponceShow(true);
+
+    setInterval(()=>{
+        setResponceShow(false)
+    },3000)
   };
 
   return (
     <div className="auth-main">
       <form className="auth-container" onSubmit={handleSubmit}>
+        <div>
+            {responceShow === true ? responce : null}
+        </div>
         <div className="mb-3">
           <h1>Signup</h1>
         </div>
@@ -77,6 +88,7 @@ const Signup = () => {
           Submit
         </button>
       </form>
+     
     </div>
   );
 };
