@@ -77,12 +77,12 @@ const Signup = () => {
             value={role}
             onChange={(e) => setRole(e.target.value)}
           >
-            <option selected value="viewer">
+            <option selected value="develoer">
               developer
             </option>
             <option value="manager">manager</option>
-            <option value="developer">designer</option>
-            <option value="developer">tester</option>
+            <option value="designer">designer</option>
+            <option value="tester">tester</option>
           </select>
         </div>
         <button type="submit" className="btn btn-primary">

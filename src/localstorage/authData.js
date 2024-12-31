@@ -1,4 +1,4 @@
-import { useState } from "react";
+
 
 let authData = [];
 
@@ -70,4 +70,18 @@ const loginUser = (email, password) => {
   return "User is Logging successfully!!!!"
 };
 
-export { createUser , loginUser };
+const handleLogOut = () => {
+  localStorage.setItem('currentUser' , JSON.stringify({}));
+  
+}
+
+const getCurrentUserDataInLocalStorage = () => {
+  const data = localStorage.getItem("currentUser");
+  if (data) {
+    return JSON.parse(data);
+  }else{
+    return {}
+  }
+}
+
+export { createUser , loginUser , handleLogOut , getCurrentUserDataInLocalStorage};

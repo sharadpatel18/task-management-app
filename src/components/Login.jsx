@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { loginUser } from "../localstorage/authData";
 
-const Login = ({setShowName}) => {
+const Login = ({handleChange , showName}) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [responce , setResponce] = useState('')
@@ -12,7 +12,7 @@ const Login = ({setShowName}) => {
     const data = loginUser(email,password);
     setResponce(data);
     setResponceShow(true);
-    setShowName(true)
+    handleChange(!showName)
 
     setInterval(()=>{
         setResponceShow(false)

@@ -20,16 +20,19 @@ function App() {
     getName();
   }, [showName]);
 
+  const handleChange = (value) => {
+    setShowName(value)
+  }
   return (
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Navbar name={name} />}>
+          <Route path="/" element={<Navbar name={name} handleChange={handleChange} showName={showName}/>}>
             <Route index element={<Home />} />
             <Route path="/signup" element={<Signup />} />
             <Route
               path="/login"
-              element={<Login setShowName={setShowName} />}
+              element={<Login handleChange={handleChange} showName={showName}/>}
             />
           </Route>
         </Routes>

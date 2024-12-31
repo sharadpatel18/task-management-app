@@ -1,11 +1,15 @@
-import React, { useState } from "react";
-import { Link , Outlet } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, Outlet } from "react-router-dom";
+import { handleLogOut } from "../localstorage/authData";
 
-const Navbar = ({name}) => {
+const Navbar = ({ name , handleChange , showName}) => {
+  const handleLogOutButton = () => {
+    handleLogOut()
+    handleChange(!showName);
+  }
   return (
     <>
       <nav className="navbar navbar-expand-lg bg-body-tertiary">
-        
         <div className="container-fluid">
           <a className="navbar-brand" href="/">
             {Object.keys(name).length !== 0 ? name.name : "login first"}
@@ -28,11 +32,26 @@ const Navbar = ({name}) => {
                   Home
                 </Link>
               </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="/signup">
-                  Signup
-                </Link>
-              </li>
+              {Object.keys(name).length !== 0 ? (
+                <li className="nav-item">
+                  <button className="nav-link" onClick={handleLogOutButton} >
+                    Log Out
+                  </button>
+                </li>
+              ) : (
+                <>
+                  <li className="nav-item">
+                    <Link className="nav-link" to="/signup">
+                      Signup
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link className="nav-link" to="/login">
+                      Login
+                    </Link>
+                  </li>
+                </>
+              )}
               <li className="nav-item dropdown">
                 <a
                   className="nav-link dropdown-toggle"
@@ -84,7 +103,7 @@ const Navbar = ({name}) => {
           </div>
         </div>
       </nav>
-      <Outlet/>
+      <Outlet />
     </>
   );
 };
