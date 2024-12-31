@@ -83,5 +83,13 @@ const getCurrentUserDataInLocalStorage = () => {
     return {}
   }
 }
+const getAllUserDataInLocalStorage = () => {
+  const data = localStorage.getItem("user");
+  if (data) {
+    return JSON.parse(data);
+  }else{
+    return []
+  }
+}
 
-export { createUser , loginUser , handleLogOut , getCurrentUserDataInLocalStorage};
+export { createUser , loginUser , handleLogOut , getCurrentUserDataInLocalStorage , getAllUserDataInLocalStorage};

@@ -5,6 +5,7 @@ import Navbar from "./components/Navbar";
 import Signup from "./components/Signup";
 import Home from "./components/Home";
 import Login from "./components/Login";
+import TaskForm from "./components/TaskForm";
 
 function App() {
   const [showName, setShowName] = useState(false);
@@ -34,6 +35,7 @@ function App() {
               path="/login"
               element={<Login handleChange={handleChange} showName={showName}/>}
             />
+            <Route path="/taskform" element={<TaskForm />} />
           </Route>
         </Routes>
       </BrowserRouter>

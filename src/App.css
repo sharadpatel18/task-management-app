@@ -17,3 +17,12 @@
 .toast{
   border: 1px solid black;
 }
+
+.h-card{
+  width: 30vw;
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid rgba(0, 0, 0, 0.109);
+  padding: 20px;
+  align-items: center;
+}
