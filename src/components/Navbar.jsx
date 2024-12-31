@@ -1,14 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link , Outlet } from "react-router-dom";
 
-const Navbar = () => {
+const Navbar = ({name}) => {
   return (
     <>
       <nav className="navbar navbar-expand-lg bg-body-tertiary">
         
         <div className="container-fluid">
           <a className="navbar-brand" href="/">
-            Navbar
+            {Object.keys(name).length !== 0 ? name.name : "login first"}
           </a>
           <button
             className="navbar-toggler"
