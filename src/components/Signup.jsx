@@ -5,7 +5,7 @@ const Signup = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState("viewer");
+  const [role, setRole] = useState("");
   const [responce , setResponce] = useState('')
   const [responceShow , setResponceShow] = useState(false)
 
@@ -77,7 +77,8 @@ const Signup = () => {
             value={role}
             onChange={(e) => setRole(e.target.value)}
           >
-            <option selected value="develoer">
+            <option>select role</option>
+            <option value="develoer">
               developer
             </option>
             <option value="manager">manager</option>

@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { getAllUserDataInLocalStorage } from "../localstorage/authData";
+import {
+  getAllUserDataInLocalStorage,
+  getCurrentUserDataInLocalStorage,
+} from "../localstorage/authData";
+import { createTask } from "../localstorage/taskHandler";
+import { data } from "react-router-dom";
 
 const TaskForm = () => {
   const [allPeoples, setAllPeoples] = useState(getAllUserDataInLocalStorage());
@@ -10,6 +15,11 @@ const TaskForm = () => {
   const [endingDate, setEndingDate] = useState("");
   const [onlyWorkingUser, setWorkingUser] = useState([]);
   const [selectedPeoples, setSelectedPeoples] = useState([]);
+  const [responce, setResponce] = useState("");
+  const [responceShow, setResponceShow] = useState(false);
+  const [currentUser, setCurrentUser] = useState(
+    getCurrentUserDataInLocalStorage()
+  );
 
   useEffect(() => {
     const data = allPeoples.filter((item) => {
@@ -41,13 +51,28 @@ const TaskForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const taskdata = {
+      id:Date.now(),
+      title: title,
+      task: task,
+      status: status,
+      startingDate: startingDate,
+      endingDate: endingDate,
+      selectedPeoples: selectedPeoples,
+      createdBy: currentUser.id 
+    };
+    const responce = createTask(taskdata);
+    setResponce(responce);
+    setResponceShow(true);
+
+    setInterval(() => {
+      setResponceShow(false);
+    }, 3000);
   };
   return (
     <div className="auth-main">
-      <form className="task-container" onSubmit={handleSubmit}>
-        {/* <div>
-            {responceShow === true ? responce : null}
-        </div> */}
+      <div className="task-container">
+        <div>{responceShow === true ? responce : null}</div>
         <div className="mb-3">
           <h1>Task Create</h1>
         </div>
@@ -81,12 +106,12 @@ const TaskForm = () => {
           </label>
           <select
             className="form-select"
-            aria-label="Default select example"
             value={status}
             onChange={(e) => setStatus(e.target.value)}
           >
-            <option defaultValue="create">create</option>
+            <option>Select status</option>
             <option value="bug">bug</option>
+            <option value="create">create</option>
             <option value="error">error</option>
             <option value="completed">completed</option>
             <option value="working">working</option>
@@ -196,10 +221,14 @@ const TaskForm = () => {
             onChange={(e) => setEndingDate(e.target.value)}
           />
         </div>
-        <button type="submit" className="btn btn-primary">
+        <button
+          type="submit"
+          className="btn btn-primary"
+          onClick={handleSubmit}
+        >
           Submit
         </button>
-      </form>
+      </div>
     </div>
   );
 };
