@@ -6,10 +6,10 @@ const TaskForm = () => {
   const [title, setTitle] = useState("");
   const [task, setTask] = useState("");
   const [status, setStatus] = useState("");
-  const [peoples, setPeoples] = useState([]);
   const [startingDate, setStartingDate] = useState("");
   const [endingDate, setEndingDate] = useState("");
   const [onlyWorkingUser, setWorkingUser] = useState([]);
+  const [selectedPeoples, setSelectedPeoples] = useState([]);
 
   useEffect(() => {
     const data = allPeoples.filter((item) => {
@@ -18,11 +18,33 @@ const TaskForm = () => {
     setWorkingUser(data);
   }, [allPeoples]);
 
-  console.log(onlyWorkingUser);
+  const handleHire = (user) => {
+    setSelectedPeoples((prev) => [...prev, user]);
+    setWorkingUser((prevWorking) =>
+      prevWorking.filter((workingUser) => workingUser.id !== user.id)
+    );
+  };
 
+  const handleReject = (user) => {
+    setWorkingUser((prevWorking) =>
+      prevWorking.filter((workingUser) => workingUser.id !== user.id)
+    );
+  };
+
+  const releaseUser = (user) => {
+    setWorkingUser((prevWorking) => [...prevWorking, user]);
+
+    setSelectedPeoples((prevHired) =>
+      prevHired.filter((hiredUser) => hiredUser.id !== user.id)
+    );
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  };
   return (
     <div className="auth-main">
-      <form className="auth-container">
+      <form className="task-container" onSubmit={handleSubmit}>
         {/* <div>
             {responceShow === true ? responce : null}
         </div> */}
@@ -96,12 +118,57 @@ const TaskForm = () => {
                     >
                       {item.role}
                     </label>
-                    <button className="btn btn-success">Hire</button>
-                    <button className="btn btn-danger">Reject</button>
+                    <button
+                      className="btn btn-success"
+                      onClick={() => handleHire(item)}
+                    >
+                      Hire
+                    </button>
+                    <button
+                      className="btn btn-danger"
+                      onClick={() => handleReject(item)}
+                    >
+                      Reject
+                    </button>
                   </div>
                 );
               })
             : null}
+        </div>
+        <div className="mb-3 selected">
+          <label htmlFor="exampleInputPassword1" className=" mb-3 form-label ">
+            Selected Workers
+          </label>
+          {selectedPeoples.length !== 0 ? (
+            selectedPeoples.map((item) => {
+              return (
+                <div className="mb-3 h-card">
+                  <label htmlFor="exampleInputPassword1" className="form-label">
+                    {item.name}
+                  </label>
+                  <label htmlFor="exampleInputPassword1" className="form-label">
+                    {item.email}
+                  </label>
+                  <label htmlFor="exampleInputPassword1" className="form-label">
+                    {item.role}
+                  </label>
+                  <button
+                    className="btn btn-danger"
+                    onClick={() => releaseUser(item)}
+                  >
+                    Reject
+                  </button>
+                </div>
+              );
+            })
+          ) : (
+            <label
+              htmlFor="exampleInputPassword1"
+              className=" mb-3 form-label "
+            >
+              none
+            </label>
+          )}
         </div>
         <div className="mb-3">
           <label htmlFor="exampleInputEmail1" className="form-label">

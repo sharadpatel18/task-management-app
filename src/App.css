@@ -26,3 +26,20 @@
   padding: 20px;
   align-items: center;
 }
+
+
+.task-form{
+  width: 100vw;
+  display: flex;
+  margin: 20px;
+  justify-content: space-around;
+}
+
+.task-container{
+  height: 90vh;
+}
+
+.selected{
+  display: flex;
+  flex-direction: column;
+}

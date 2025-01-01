@@ -1,5 +1,3 @@
-
-
 let authData = [];
 
 const getAuthData = () => {
