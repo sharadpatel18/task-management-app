@@ -7,6 +7,7 @@ import Home from "./components/Home";
 import Login from "./components/Login";
 import TaskForm from "./components/TaskForm";
 import TaskDetails from "./components/TaskDetails";
+import SubTaskForm from "./childcomponets/SubTaskForm";
 
 function App() {
   const [showName, setShowName] = useState(false);
@@ -38,6 +39,7 @@ function App() {
             />
             <Route path="/taskform" element={<TaskForm />} />
             <Route path="/taskdetails/:id" element={<TaskDetails />} />
+            <Route path="/subtaskform/:id" element={<SubTaskForm />} />
           </Route>
         </Routes>
       </BrowserRouter>

@@ -1,31 +1,25 @@
 import React, { useEffect, useState } from "react";
-import {
-  getAllUserDataInLocalStorage,
-  getCurrentUserDataInLocalStorage,
-} from "../localstorage/authData";
-import { createTask } from "../localstorage/taskHandler";
+import { getCurrentUserDataInLocalStorage } from "../localstorage/authData";
+import { createSubTask, getTaskUserById, updateStatus } from "../localstorage/taskHandler";
+import { useParams } from "react-router-dom";
 
-const TaskForm = () => {
-  const [allPeoples, setAllPeoples] = useState(getAllUserDataInLocalStorage());
+const SubTaskForm = () => {
+  const { id } = useParams();
   const [title, setTitle] = useState("");
   const [task, setTask] = useState("");
-  const [status, setStatus] = useState("");
-  const [startingDate, setStartingDate] = useState("");
-  const [endingDate, setEndingDate] = useState("");
   const [onlyWorkingUser, setWorkingUser] = useState([]);
   const [selectedPeoples, setSelectedPeoples] = useState([]);
   const [responce, setResponce] = useState("");
   const [responceShow, setResponceShow] = useState(false);
+  const [status, setStatus] = useState("");
   const [currentUser, setCurrentUser] = useState(
     getCurrentUserDataInLocalStorage()
   );
 
   useEffect(() => {
-    const data = allPeoples.filter((item) => {
-      return item.role !== "manager";
-    });
+    const data = getTaskUserById(id);
     setWorkingUser(data);
-  }, [allPeoples]);
+  }, []);
 
   const handleHire = (user) => {
     setSelectedPeoples((prev) => [...prev, user]);
@@ -51,19 +45,20 @@ const TaskForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const taskdata = {
-      id:Date.now(),
+      id: Date.now(),
       title: title,
       task: task,
-      status: status,
-      startingDate: startingDate,
-      endingDate: endingDate,
       selectedPeoples: selectedPeoples,
-      createdBy: currentUser.id, 
+      createdBy: currentUser.id,
       createdByName: currentUser.name,
+      parentTask: id,
     };
-    const responce = createTask(taskdata);
+    updateStatus(id , status);
+    const responce = createSubTask(taskdata);
     setResponce(responce);
     setResponceShow(true);
+
+
 
     setInterval(() => {
       setResponceShow(false);
@@ -74,7 +69,7 @@ const TaskForm = () => {
       <div className="task-container">
         <div>{responceShow === true ? responce : null}</div>
         <div className="mb-3">
-          <h1>Task Create</h1>
+          <h1>Sub Task Create</h1>
         </div>
         <div className="mb-3">
           <label htmlFor="exampleInputEmail1" className="form-label">
@@ -111,9 +106,7 @@ const TaskForm = () => {
           >
             <option>Select status</option>
             <option value="bug">bug</option>
-            <option value="create">create</option>
             <option value="error">error</option>
-            <option value="completed">completed</option>
             <option value="working">working</option>
           </select>
         </div>
@@ -195,32 +188,7 @@ const TaskForm = () => {
             </label>
           )}
         </div>
-        <div className="mb-3">
-          <label htmlFor="exampleInputEmail1" className="form-label">
-            Starting Date
-          </label>
-          <input
-            type="date"
-            className="form-control"
-            id="exampleInputEmail1"
-            aria-describedby="emailHelp"
-            value={startingDate}
-            onChange={(e) => setStartingDate(e.target.value)}
-          />
-        </div>
-        <div className="mb-3">
-          <label htmlFor="exampleInputEmail1" className="form-label">
-            Ending Date
-          </label>
-          <input
-            type="date"
-            className="form-control"
-            id="exampleInputEmail1"
-            aria-describedby="emailHelp"
-            value={endingDate}
-            onChange={(e) => setEndingDate(e.target.value)}
-          />
-        </div>
+
         <button
           type="submit"
           className="btn btn-primary"
@@ -233,4 +201,4 @@ const TaskForm = () => {
   );
 };
 
-export default TaskForm;
+export default SubTaskForm;
