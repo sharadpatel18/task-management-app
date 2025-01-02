@@ -16,19 +16,5 @@ const createTask = (data) => {
     return "Task is created"
 }
 
-const getUserTaskDataById = (id) => {
-    taskData.forEach((item)=>{
-        item.selectedPeoples.forEach((people)=>{
-            if (people.id == id) {
-                filteredTask.push(item) 
-            }
-        })
-    })
-    
-    filteredTask = filteredTask.filter((item)=>{
-        return item.id !== item.id
-    })
-    return filteredTask;
-}
 
 export {createTask , getUserTaskDataById}
