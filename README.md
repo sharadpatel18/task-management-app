@@ -34,3 +34,13 @@ complete a task creation process:
   1.complete all logic to create and save task in local so=torage.
   2.task is filter per user and also task is show to created user.
   3.soled some error in this work
+
+
+day-4:
+-----------------------------------------------
+today's work:
+  1.create a task details component to show task data.
+  2.create a sub task form and store sub task in local storage.
+  3.indivisual task show is panding.
+  4.solved some errors.
+
