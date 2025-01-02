@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { getCurrentUserDataInLocalStorage } from "../localstorage/authData";
-import { getUserTaskDataById } from "../localstorage/taskHandler";
 import { useNavigate } from "react-router-dom";
 
 const Home = () => {
