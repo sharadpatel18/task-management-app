@@ -26,3 +26,11 @@ complete a task form:
 
 extra work:
   1.change a role of user
+
+day-3:
+----------------------------------------------
+
+complete a task creation process:
+  1.complete all logic to create and save task in local so=torage.
+  2.task is filter per user and also task is show to created user.
+  3.soled some error in this work
