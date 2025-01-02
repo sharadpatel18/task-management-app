@@ -67,3 +67,55 @@
 .s-p{
   display: flex;
 }
+
+.taskshow-main{
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+}
+
+.taskshow-container{
+  width: 60vw;
+  margin-top: 50px; 
+}
+
+.taskshow-status{
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.taskshow-details{
+  margin: 30px 0px;
+  display: flex;
+  flex-direction: column;
+  border: 3px solid rgba(0, 0, 0, 0.109);
+  padding: 20px;
+  border-radius: 10px;
+  justify-content: center;
+}
+
+.taskshow-details h1{
+  font-weight: 400;
+  border-bottom: 3px solid rgba(0, 0, 0, 0.109);
+  padding-bottom: 15px;
+}
+
+.taskshow-details p{
+  font-size: 20px;
+  font-weight: 100;
+}
+
+.taskshow-details label{
+  font-size: 18px;
+  font-weight: 400;
+  margin: 5px 0px;
+}
+
+.taskshow-btns{
+  display: flex;
+  width: 23vw;
+  margin-top: 10px;
+  justify-content: space-between;
+}

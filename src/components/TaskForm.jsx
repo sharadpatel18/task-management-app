@@ -59,7 +59,8 @@ const TaskForm = () => {
       startingDate: startingDate,
       endingDate: endingDate,
       selectedPeoples: selectedPeoples,
-      createdBy: currentUser.id 
+      createdBy: currentUser.id, 
+      createdByName: currentUser.name,
     };
     const responce = createTask(taskdata);
     setResponce(responce);

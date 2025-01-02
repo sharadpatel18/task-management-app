@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getCurrentUserDataInLocalStorage } from "../localstorage/authData";
-import { useNavigate } from "react-router-dom";
+import { Link , useNavigate } from "react-router-dom";
 
 const Home = () => {
   const getTaskData = () => {
@@ -31,7 +31,7 @@ const Home = () => {
     const selecedData = taskData.filter((item) =>
       item.selectedPeoples.some(
         (people) =>
-          people.id === currentUser.id || item.createdBy === currentUser.id
+          people.id === currentUser.id || item.createdBy === currentUser.id  && item.status != "complete"
       )
     );
 
@@ -66,9 +66,10 @@ const Home = () => {
                     {item.selectedPeoples.map((p) => {
                       return <p className="card-text">{p.name}</p>;
                     })}
-                    <a href="#" className="btn btn-primary">
-                      Go somewhere
-                    </a>
+                    <p>created By : {item.createdByName}</p>
+                    <Link to={`/taskdetails/${item.id}`}className="btn btn-primary">
+                      Full Details of this task
+                    </Link>
                   </div>
                 </div>
               </div>
