@@ -52,8 +52,8 @@ const SubTaskForm = () => {
       createdBy: currentUser.id,
       createdByName: currentUser.name,
       parentTask: id,
+      updatedStatus:status,
     };
-    updateStatus(id , status);
     const responce = createSubTask(taskdata);
     setResponce(responce);
     setResponceShow(true);

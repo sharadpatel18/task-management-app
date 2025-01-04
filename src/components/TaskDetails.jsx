@@ -26,7 +26,7 @@ const TaskDetails = () => {
     if (task.status == "working") {
       setStatusBar("25%");
     } else if (task.status == "error") {
-      setStatusBar("59%");
+      setStatusBar("50%");
     } else if (task.status == "bug") {
       setStatusBar("75%");
     } else if (task.status == "completed") {
@@ -34,7 +34,22 @@ const TaskDetails = () => {
     } else {
       setStatusBar("2%");
     }
-  }, [task, responceShow]);
+
+    if (subTask.length > 0) {
+      if (subTask[subTask.length - 1].updatedStatus == "working") {
+        setStatusBar("25%");
+      } else if (subTask[subTask.length - 1].updatedStatus == "error") {
+        setStatusBar("50%");
+      } else if (subTask[subTask.length - 1].updatedStatus == "bug") {
+        setStatusBar("75%");
+      } else if (subTask[subTask.length - 1].updateStatus == "completed") {
+        setStatusBar("100%");
+      } else {
+        setStatusBar("2%");
+      }
+    }
+  }, [task, responceShow , subTask]);
+
 
   const handleWorkingStart = () => {
     const data = updateStatus(id, "working");
