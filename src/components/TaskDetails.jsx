@@ -5,15 +5,18 @@ import {
   getTaskById,
   updateStatus,
 } from "../localstorage/taskHandler";
+import { getCurrentUserDataInLocalStorage } from "../localstorage/authData";
 
 const TaskDetails = () => {
   const { id } = useParams();
   const Navigate = useNavigate();
+  const [currentUser, setCurrentUser] = useState(getCurrentUserDataInLocalStorage());
   const [task, setTask] = useState({});
   const [subTask, setSubTask] = useState([]);
   const [statusBar, setStatusBar] = useState("2%");
   const [responce, setResponce] = useState("");
   const [responceShow, setResponceShow] = useState(false);
+  const [selectedSubTask, setSelectedSubTask] = useState([]);
 
   useEffect(() => {
     const data = getTaskById(id);
@@ -22,33 +25,44 @@ const TaskDetails = () => {
     setSubTask(subData);
   }, []);
 
-  useEffect(() => {
-    if (task.status == "working") {
-      setStatusBar("25%");
-    } else if (task.status == "error") {
-      setStatusBar("50%");
-    } else if (task.status == "bug") {
-      setStatusBar("75%");
-    } else if (task.status == "completed") {
-      setStatusBar("100%");
-    } else {
-      setStatusBar("2%");
-    }
+  useEffect(()=>{
+    const selecedData = subTask.filter((item) =>
+      item.selectedPeoples.some(
+        (people) =>
+          people.id === currentUser.id || item.createdBy === currentUser.id  && item.status != "complete"
+      )
+    );
+    setSelectedSubTask(selecedData)
+  },[subTask])
 
-    if (subTask.length > 0) {
-      if (subTask[subTask.length - 1].updatedStatus == "working") {
+  useEffect(() => {
+    if (selectedSubTask.length > 0) {
+      if (selectedSubTask[selectedSubTask.length - 1].updatedStatus == "working") {
         setStatusBar("25%");
-      } else if (subTask[subTask.length - 1].updatedStatus == "error") {
+      } else if (selectedSubTask[selectedSubTask.length - 1].updatedStatus == "error") {
         setStatusBar("50%");
-      } else if (subTask[subTask.length - 1].updatedStatus == "bug") {
+      } else if (selectedSubTask[selectedSubTask.length - 1].updatedStatus == "bug") {
         setStatusBar("75%");
-      } else if (subTask[subTask.length - 1].updateStatus == "completed") {
+      } else if (selectedSubTask[selectedSubTask.length - 1].updateStatus == "completed") {
         setStatusBar("100%");
       } else {
         setStatusBar("2%");
       }
+    }else{
+      if (task.status == "working") {
+        setStatusBar("25%");
+      } else if (task.status == "error") {
+        setStatusBar("50%");
+      } else if (task.status == "bug") {
+        setStatusBar("75%");
+      } else if (task.status == "completed") {
+        setStatusBar("100%");
+      } else {
+        setStatusBar("2%");
+      }
+  
     }
-  }, [task, responceShow , subTask]);
+  }, [task, responceShow , selectedSubTask]);
 
 
   const handleWorkingStart = () => {
@@ -113,7 +127,7 @@ const TaskDetails = () => {
           {subTask.length > 0 ? (
             <div>
               <h1>All Sub Task</h1>
-              {subTask.map((item) => {
+              {selectedSubTask.map((item) => {
                 return (
                   <div className="taskshow-details">
                     <h1>{item.title}</h1>
@@ -122,7 +136,9 @@ const TaskDetails = () => {
                     {item.selectedPeoples.map((p) => {
                       return <p className="card-text">{p.name}</p>;
                     })}
-                    <button className="btn btn-success">complete</button>
+                    <div>
+                      <button className="btn btn-success">complete</button>
+                    </div>
                   </div>
                 );
               })}

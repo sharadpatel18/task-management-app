@@ -1,5 +1,7 @@
 let taskData = [];
+let completedTaskData = [];
 let subTaskData = [];
+let completedSubTaskData = [];
 
 const getTaskData = () => {
   const data = localStorage.getItem("task");
@@ -63,6 +65,18 @@ const getSubTaskById = (id) => {
   })
 
   return responce
+}
+
+const CompleteTaskById = (id,data) => {
+  const index = taskData.findIndex((item)=>{
+    return item.id === id;
+  })
+
+  // const filterTaskData = 
+}
+
+const CompleteSubTaskById = (id,data) => {
+  
 }
 
 export { createTask, getTaskById, updateStatus, getTaskUserById , createSubTask , getSubTaskById};
