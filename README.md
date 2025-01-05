@@ -44,3 +44,18 @@ today's work:
   3.indivisual task show is panding.
   4.solved some errors.
 
+
+day-5:
+-------------------------------------------------
+
+this day is my birthday so i am in leave.
+
+
+day-6:
+-------------------------------------------------
+
+today's work:
+  1.learn ngrokx and add in this app.
+  2.status bar logic is updated.
+  3.and subTask complete button's size is to big to small.
+
