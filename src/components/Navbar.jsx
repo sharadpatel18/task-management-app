@@ -60,13 +60,13 @@ const Navbar = ({ name , handleChange , showName}) => {
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
                 >
-                  Dropdown
+                  Pages
                 </a>
                 <ul className="dropdown-menu">
                   <li>
-                    <a className="dropdown-item" href="/">
-                      Action
-                    </a>
+                    <Link className="dropdown-item" to="/history">
+                      History
+                    </Link>
                   </li>
                   <li>
                     <a className="dropdown-item" href="/">

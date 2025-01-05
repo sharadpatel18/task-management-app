@@ -9,6 +9,18 @@ const getTaskData = () => {
     taskData = JSON.parse(data);
   }
 };
+const getCompletedTaskData = () => {
+  const data = localStorage.getItem("completedTask");
+  if (data) {
+    completedTaskData = JSON.parse(data);
+  }
+};
+const getCompletedSubTaskData = () => {
+  const data = localStorage.getItem("completedSubTask");
+  if (data) {
+    completedSubTaskData = JSON.parse(data);
+  }
+};
 
 const getSubTaskData = () => {
   const data = localStorage.getItem("subtask");
@@ -19,6 +31,8 @@ const getSubTaskData = () => {
 
 getTaskData();
 getSubTaskData();
+getCompletedSubTaskData();
+getCompletedTaskData();
 
 const createTask = (data) => {
   taskData.push(data);
@@ -34,10 +48,10 @@ const getTaskById = (id) => {
   return taskData[IndexOfTask];
 };
 
-const updateStatus = (id , status) => {
+const updateStatus = (id, status) => {
   const IndexOfTask = taskData.findIndex((item) => {
     return item.id == id;
-});
+  });
 
   taskData[IndexOfTask].status = status;
   localStorage.setItem("task", JSON.stringify(taskData));
@@ -60,23 +74,64 @@ const createSubTask = (data) => {
 };
 
 const getSubTaskById = (id) => {
-  const responce = subTaskData.filter((item)=>{
+  const responce = subTaskData.filter((item) => {
     return item.parentTask == id;
+  });
+
+  return responce;
+};
+
+const CompleteTaskById = (data) => {
+  completedTaskData.push(data);
+  localStorage.setItem("completedTask", JSON.stringify(completedTaskData));
+  console.log(data);
+
+  taskData = taskData.filter((item) => {
+    return item.id !== data.id;
+  });
+
+  localStorage.setItem("task", JSON.stringify(taskData));
+};
+
+const CompleteSubTaskById = (data) => {
+  completedSubTaskData.push(data);
+  localStorage.setItem(
+    "completedSubTask",
+    JSON.stringify(completedSubTaskData)
+  );
+
+  subTaskData = subTaskData.filter((item) => {
+    return item.id !== data.id;
+  });
+  localStorage.setItem("subtask", JSON.stringify(subTaskData));
+};
+
+const getTaskHistory = () => {
+  return completedTaskData;
+};
+
+const getSubTaskHistory = () => {
+  return completedSubTaskData;
+};
+
+const getTaksHistoryById = (id) => {
+  const index = completedTaskData.findIndex((item)=>{
+    return  item.id == id;
   })
 
-  return responce
+  return completedTaskData[index];
 }
 
-const CompleteTaskById = (id,data) => {
-  const index = taskData.findIndex((item)=>{
-    return item.id === id;
-  })
-
-  // const filterTaskData = 
-}
-
-const CompleteSubTaskById = (id,data) => {
-  
-}
-
-export { createTask, getTaskById, updateStatus, getTaskUserById , createSubTask , getSubTaskById};
+export {
+  createTask,
+  getTaskById,
+  updateStatus,
+  getTaskUserById,
+  createSubTask,
+  getSubTaskById,
+  CompleteTaskById,
+  CompleteSubTaskById,
+  getTaskHistory,
+  getSubTaskHistory,
+  getTaksHistoryById
+};

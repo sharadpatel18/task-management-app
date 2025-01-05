@@ -8,6 +8,8 @@ import Login from "./components/Login";
 import TaskForm from "./components/TaskForm";
 import TaskDetails from "./components/TaskDetails";
 import SubTaskForm from "./childcomponets/SubTaskForm";
+import History from "./components/TaskHistory";
+import TaskHistoryDetails from "./components/TaskHistoryDetails";
 
 function App() {
   const [showName, setShowName] = useState(false);
@@ -38,8 +40,10 @@ function App() {
               element={<Login handleChange={handleChange} showName={showName}/>}
             />
             <Route path="/taskform" element={<TaskForm />} />
+            <Route path="/history" element={<History />} />
             <Route path="/taskdetails/:id" element={<TaskDetails />} />
             <Route path="/subtaskform/:id" element={<SubTaskForm />} />
+            <Route path="/taskdetailhistory/:id" element={<TaskHistoryDetails />} />
           </Route>
         </Routes>
       </BrowserRouter>

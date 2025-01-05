@@ -4,19 +4,29 @@ import {
   getSubTaskById,
   getTaskById,
   updateStatus,
+  CompleteTaskById,
+  CompleteSubTaskById,
 } from "../localstorage/taskHandler";
 import { getCurrentUserDataInLocalStorage } from "../localstorage/authData";
 
 const TaskDetails = () => {
   const { id } = useParams();
   const Navigate = useNavigate();
-  const [currentUser, setCurrentUser] = useState(getCurrentUserDataInLocalStorage());
+  const [currentUser, setCurrentUser] = useState(
+    getCurrentUserDataInLocalStorage()
+  );
   const [task, setTask] = useState({});
   const [subTask, setSubTask] = useState([]);
   const [statusBar, setStatusBar] = useState("2%");
   const [responce, setResponce] = useState("");
   const [responceShow, setResponceShow] = useState(false);
   const [selectedSubTask, setSelectedSubTask] = useState([]);
+  const [showSummery, setShowSummery] = useState(false);
+  const [showSubSummery, setShowSubSummery] = useState({
+    success: false,
+    task: null,
+  });
+  const [summery, setSummery] = useState("");
 
   useEffect(() => {
     const data = getTaskById(id);
@@ -25,30 +35,39 @@ const TaskDetails = () => {
     setSubTask(subData);
   }, []);
 
-  useEffect(()=>{
+  useEffect(() => {
     const selecedData = subTask.filter((item) =>
       item.selectedPeoples.some(
         (people) =>
-          people.id === currentUser.id || item.createdBy === currentUser.id  && item.status != "complete"
+          people.id === currentUser.id ||
+          (item.createdBy === currentUser.id && item.status != "complete")
       )
     );
-    setSelectedSubTask(selecedData)
-  },[subTask])
+    setSelectedSubTask(selecedData);
+  }, [subTask]);
 
   useEffect(() => {
     if (selectedSubTask.length > 0) {
-      if (selectedSubTask[selectedSubTask.length - 1].updatedStatus == "working") {
+      if (
+        selectedSubTask[selectedSubTask.length - 1].updatedStatus == "working"
+      ) {
         setStatusBar("25%");
-      } else if (selectedSubTask[selectedSubTask.length - 1].updatedStatus == "error") {
+      } else if (
+        selectedSubTask[selectedSubTask.length - 1].updatedStatus == "error"
+      ) {
         setStatusBar("50%");
-      } else if (selectedSubTask[selectedSubTask.length - 1].updatedStatus == "bug") {
+      } else if (
+        selectedSubTask[selectedSubTask.length - 1].updatedStatus == "bug"
+      ) {
         setStatusBar("75%");
-      } else if (selectedSubTask[selectedSubTask.length - 1].updateStatus == "completed") {
+      } else if (
+        selectedSubTask[selectedSubTask.length - 1].updateStatus == "completed"
+      ) {
         setStatusBar("100%");
       } else {
         setStatusBar("2%");
       }
-    }else{
+    } else {
       if (task.status == "working") {
         setStatusBar("25%");
       } else if (task.status == "error") {
@@ -60,10 +79,8 @@ const TaskDetails = () => {
       } else {
         setStatusBar("2%");
       }
-  
     }
-  }, [task, responceShow , selectedSubTask]);
-
+  }, [task, responceShow, selectedSubTask]);
 
   const handleWorkingStart = () => {
     const data = updateStatus(id, "working");
@@ -73,6 +90,27 @@ const TaskDetails = () => {
     setInterval(() => {
       setResponceShow(false);
     }, 3000);
+  };
+
+  const handleSubTask = () => {
+    if (showSubSummery.task !== null) {
+      const tempData = showSubSummery.task;
+      tempData.summery = summery;
+      tempData.updatedStatus = "completed";
+      CompleteSubTaskById(tempData);
+    }
+  };
+
+  const handleCompletedTask = () => {
+     if (subTask.length == 0) {
+      const tempData = task;
+      tempData.summery = summery;
+      tempData.status = "completed";
+      CompleteTaskById(tempData);
+    //  Navigate('/')
+     }else{
+      alert('first Complete Sub Task')
+     }
   };
 
   return (
@@ -117,16 +155,65 @@ const TaskDetails = () => {
               >
                 Add Sub-Task
               </button>
-              <button className="btn btn-success">Completed</button>
+              <button
+                className="btn btn-success"
+                onClick={() => setShowSummery(true)}
+              >
+                Completed
+              </button>
             </div>
           </div>
         ) : (
           <div>Loading....</div>
         )}
+        {showSummery ? (
+          <div class="form-floating">
+            <textarea
+              class="form-control"
+              placeholder="Leave a comment here"
+              id="floatingTextarea2"
+              style={{ height: "200px", paddingTop: "50px" }}
+              value={summery}
+              onChange={(e) => setSummery(e.target.value)}
+            ></textarea>
+            <label for="floatingTextarea2">
+              Enter Sub Task Summery
+            </label>
+            <button
+              className="btn btn-success"
+              style={{ marginTop: "20px" }}
+              onClick={handleCompletedTask}
+            >
+              Final Completed
+            </button>
+          </div>
+        ) : null}
         <div className="taskshow-details">
           {subTask.length > 0 ? (
             <div>
               <h1>All Sub Task</h1>
+              {showSubSummery.success ? (
+                <div class="form-floating">
+                  <textarea
+                    class="form-control"
+                    placeholder="Leave a comment here"
+                    id="floatingTextarea2"
+                    style={{ height: "200px", paddingTop: "50px" }}
+                    value={summery}
+                    onChange={(e) => setSummery(e.target.value)}
+                  ></textarea>
+                  <label for="floatingTextarea2" style={{ marginBottom: "" }}>
+                    Enter Sub Task Summery
+                  </label>
+                  <button
+                    className="btn btn-success"
+                    style={{ marginTop: "20px" }}
+                    onClick={handleSubTask}
+                  >
+                    Final Completed
+                  </button>
+                </div>
+              ) : null}
               {selectedSubTask.map((item) => {
                 return (
                   <div className="taskshow-details">
@@ -137,7 +224,14 @@ const TaskDetails = () => {
                       return <p className="card-text">{p.name}</p>;
                     })}
                     <div>
-                      <button className="btn btn-success">complete</button>
+                      <button
+                        className="btn btn-success"
+                        onClick={() =>
+                          setShowSubSummery({ success: true, task: item })
+                        }
+                      >
+                        complete
+                      </button>
                     </div>
                   </div>
                 );
