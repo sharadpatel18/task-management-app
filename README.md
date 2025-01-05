@@ -59,3 +59,13 @@ today's work:
   2.status bar logic is updated.
   3.and subTask complete button's size is to big to small.
 
+day-7:
+---------------------------------------------------
+
+today's work:
+  1.create button logic are completed.
+  2.and all completed task show in history page.
+
+panding work on this day:
+  1.in task history details page show sub-task of this main task.
+  2.assign of this task employee.
