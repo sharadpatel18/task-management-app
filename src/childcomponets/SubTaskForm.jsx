@@ -57,9 +57,7 @@ const SubTaskForm = () => {
     const responce = createSubTask(taskdata);
     setResponce(responce);
     setResponceShow(true);
-
-
-
+    
     setInterval(() => {
       setResponceShow(false);
     }, 3000);

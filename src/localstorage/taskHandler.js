@@ -106,8 +106,14 @@ const CompleteSubTaskById = (data) => {
   localStorage.setItem("subtask", JSON.stringify(subTaskData));
 };
 
-const getTaskHistory = () => {
-  return completedTaskData;
+const getTaskHistory = (userId) => {
+  const filterData = completedTaskData.filter((item) =>
+    item.selectedPeoples.some(
+      (people) => people.id === userId || item.createdBy === userId
+    )
+  );
+
+  return filterData;
 };
 
 const getSubTaskHistory = () => {
@@ -115,12 +121,28 @@ const getSubTaskHistory = () => {
 };
 
 const getTaksHistoryById = (id) => {
-  const index = completedTaskData.findIndex((item)=>{
-    return  item.id == id;
-  })
+
+  const index = completedTaskData.findIndex((item) => {
+    return item.id == id;
+  });
 
   return completedTaskData[index];
-}
+};
+
+const filterCompletedTaskById = (id, userId) => {
+  let filterData = completedSubTaskData.filter((item) => {
+    return item.parentTask == id;
+  });
+  console.log(filterData);
+  
+  filterData = filterData.filter((item) =>
+    item.selectedPeoples.some(
+      (people) => people.id === userId || item.createdBy === userId
+    )
+  );
+
+  return filterData;
+};
 
 export {
   createTask,
@@ -133,5 +155,6 @@ export {
   CompleteSubTaskById,
   getTaskHistory,
   getSubTaskHistory,
-  getTaksHistoryById
+  getTaksHistoryById,
+  filterCompletedTaskById,
 };

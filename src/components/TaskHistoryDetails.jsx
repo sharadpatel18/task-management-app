@@ -1,15 +1,24 @@
 import React, { useEffect, useState } from "react";
-import { getTaksHistoryById } from "../localstorage/taskHandler";
+import {
+  filterCompletedTaskById,
+  getTaksHistoryById,
+} from "../localstorage/taskHandler";
+import { getCurrentUserDataInLocalStorage } from "../localstorage/authData";
 import { useParams } from "react-router-dom";
 
 const TaskHistoryDetails = () => {
   const { id } = useParams();
   const [task, setTask] = useState({});
+  const [subTask, setSubTask] = useState([]);
+  const [currentUser, setCurrentUser] = useState(
+    getCurrentUserDataInLocalStorage()
+  );
 
   useEffect(() => {
     const data = getTaksHistoryById(id);
+    const taskData = filterCompletedTaskById(id , currentUser.id);
     setTask(data);
-    console.log(data);
+    setSubTask(taskData);
   }, []);
 
   return (
@@ -48,10 +57,22 @@ const TaskHistoryDetails = () => {
               ) : (
                 <div>Loading....</div>
               )}
-            <div className="taskshow-details">
+              <div className="taskshow-details">
                 <h1>summery</h1>
                 <label htmlFor="">{task.summery}</label>
-            </div>
+              </div>
+              {subTask.map((item) => {
+                return (
+                  <div className="taskshow-details">
+                    <h1>{item.title}</h1>
+                    <p>{item.task}</p>
+                    <label htmlFor="">Peoples:</label>
+                    {item.selectedPeoples.map((p) => {
+                      return <p className="card-text">{p.name}</p>;
+                    })}
+                  </div>
+                );
+              })}
             </div>
           </div>
         </>

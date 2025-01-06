@@ -1,19 +1,18 @@
-import React, { useEffect , useState} from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getCurrentUserDataInLocalStorage } from "../localstorage/authData";
 import { getTaskHistory } from "../localstorage/taskHandler";
 
 const History = () => {
-  
-    const [currentUser, setCurrentUser] = useState(
-        getCurrentUserDataInLocalStorage()
-      );
-    const [ completedTask , setCompletedTask ] = useState([]);
+  const [currentUser, setCurrentUser] = useState(
+    getCurrentUserDataInLocalStorage()
+  );
+  const [completedTask, setCompletedTask] = useState([]);
 
-    useEffect(()=>{
-        const data = getTaskHistory();
-        setCompletedTask(data);
-    },[]);
+  useEffect(() => {
+    const data = getTaskHistory(currentUser.id);
+    setCompletedTask(data);
+  }, []);
 
   return (
     <div>
