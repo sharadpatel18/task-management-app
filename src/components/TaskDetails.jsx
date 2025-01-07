@@ -161,6 +161,8 @@ const TaskDetails = () => {
               >
                 Completed
               </button>
+              <button className="btn btn-primary mx-2">Edit</button>
+              <button className="btn btn-danger">Delete</button>
             </div>
           </div>
         ) : (

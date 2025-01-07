@@ -70,6 +70,8 @@ const Home = () => {
                     <Link to={`/taskdetails/${item.id}`}className="btn btn-primary">
                       Full Details of this task
                     </Link>
+                    <button className="btn btn-primary mx-2">Edit</button>
+                    <button className="btn btn-danger">Delete</button>
                   </div>
                 </div>
               </div>
