@@ -68,4 +68,10 @@ today's work:
 
 panding work on this day:
   1.in task history details page show sub-task of this main task.
-  2.assign of this task employee.
+
+
+day-8:
+-----------------------------------------------------
+
+today's work:
+  1.complete task filter(using id).
