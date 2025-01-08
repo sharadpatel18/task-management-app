@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getCurrentUserDataInLocalStorage } from "../localstorage/authData";
 import { Link , useNavigate } from "react-router-dom";
+import { handleDeleteTask, handleEditTask } from "../localstorage/taskHandler";
 
 const Home = () => {
   const getTaskData = () => {
@@ -70,8 +71,8 @@ const Home = () => {
                     <Link to={`/taskdetails/${item.id}`}className="btn btn-primary">
                       Full Details of this task
                     </Link>
-                    <button className="btn btn-primary mx-2">Edit</button>
-                    <button className="btn btn-danger">Delete</button>
+                    <button className="btn btn-primary mx-2" onClick={()=>handleEditTask(item)}>Edit</button>
+                    <button className="btn btn-danger" onClick={()=>handleDeleteTask(item)}>Delete</button>
                   </div>
                 </div>
               </div>

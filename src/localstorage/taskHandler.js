@@ -144,6 +144,23 @@ const filterCompletedTaskById = (id, userId) => {
   return filterData;
 };
 
+const handleEditTask = (data) => {
+  const index = taskData.findIndex((item)=>{
+    return data.id == item.id;
+  })
+
+  taskData[index] = data;
+  
+  localStorage.setItem('task' , JSON.stringify(taskData));
+} 
+
+const handleDeleteTask = (data) => {
+  taskData = taskData.filter((item)=>{
+    return item.id != data.id;
+  })
+  localStorage.setItem('task' , JSON.stringify(taskData));
+};
+
 export {
   createTask,
   getTaskById,
@@ -157,4 +174,6 @@ export {
   getSubTaskHistory,
   getTaksHistoryById,
   filterCompletedTaskById,
+  handleEditTask,
+  handleDeleteTask
 };
