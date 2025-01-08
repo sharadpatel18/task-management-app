@@ -3,9 +3,10 @@ import {
   getAllUserDataInLocalStorage,
   getCurrentUserDataInLocalStorage,
 } from "../localstorage/authData";
-import { createTask } from "../localstorage/taskHandler";
+import { createTask, getTaskById, handleEditTask } from "../localstorage/taskHandler";
+import { useParams } from "react-router-dom";
 
-const TaskForm = () => {
+const TaskForm = ({ isEdit }) => {
   const [allPeoples, setAllPeoples] = useState(getAllUserDataInLocalStorage());
   const [title, setTitle] = useState("");
   const [task, setTask] = useState("");
@@ -13,12 +14,25 @@ const TaskForm = () => {
   const [startingDate, setStartingDate] = useState("");
   const [endingDate, setEndingDate] = useState("");
   const [onlyWorkingUser, setWorkingUser] = useState([]);
+  const [unselectedPeople, setUnSelectedPeople] = useState([]);
   const [selectedPeoples, setSelectedPeoples] = useState([]);
   const [responce, setResponce] = useState("");
   const [responceShow, setResponceShow] = useState(false);
   const [currentUser, setCurrentUser] = useState(
     getCurrentUserDataInLocalStorage()
   );
+  const { id } = useParams();
+
+  useEffect(() => {
+    if (isEdit) {
+      const data = getTaskById(id);
+      setTitle(data.title);
+      setTask(data.task);
+      setStartingDate(data.startingDate);
+      setEndingDate(data.endingDate);
+      setSelectedPeoples(data.selectedPeoples);
+    }
+  }, []);
 
   useEffect(() => {
     const data = allPeoples.filter((item) => {
@@ -27,47 +41,85 @@ const TaskForm = () => {
     setWorkingUser(data);
   }, [allPeoples]);
 
+  useEffect(() => {
+    if (isEdit) {
+      const uniqueUsers = onlyWorkingUser.filter(
+        (user) => !selectedPeoples.some((selected) => selected.id === user.id)
+      );
+      setUnSelectedPeople(uniqueUsers);
+    }
+  }, [selectedPeoples]);
+
   const handleHire = (user) => {
-    setSelectedPeoples((prev) => [...prev, user]);
-    setWorkingUser((prevWorking) =>
-      prevWorking.filter((workingUser) => workingUser.id !== user.id)
-    );
+    if (isEdit) {
+      setSelectedPeoples((prev) => [...prev, user]);
+      setUnSelectedPeople((prevWorking) =>
+        prevWorking.filter((workingUser) => workingUser.id !== user.id)
+      );
+    } else {
+      setSelectedPeoples((prev) => [...prev, user]);
+      setWorkingUser((prevWorking) =>
+        prevWorking.filter((workingUser) => workingUser.id !== user.id)
+      );
+    }
   };
 
   const handleReject = (user) => {
-    setWorkingUser((prevWorking) =>
-      prevWorking.filter((workingUser) => workingUser.id !== user.id)
-    );
+    if (isEdit) {
+      setUnSelectedPeople((prevWorking) =>
+        prevWorking.filter((workingUser) => workingUser.id !== user.id)
+      );
+    } else {
+      setWorkingUser((prevWorking) =>
+        prevWorking.filter((workingUser) => workingUser.id !== user.id)
+      );
+    }
   };
 
   const releaseUser = (user) => {
-    setWorkingUser((prevWorking) => [...prevWorking, user]);
+    if (isEdit) {
+      setUnSelectedPeople((prevWorking) => [...prevWorking, user]);
 
-    setSelectedPeoples((prevHired) =>
-      prevHired.filter((hiredUser) => hiredUser.id !== user.id)
-    );
+      setSelectedPeoples((prevHired) =>
+        prevHired.filter((hiredUser) => hiredUser.id !== user.id)
+      );
+    } else {
+      setWorkingUser((prevWorking) => [...prevWorking, user]);
+
+      setSelectedPeoples((prevHired) =>
+        prevHired.filter((hiredUser) => hiredUser.id !== user.id)
+      );
+    }
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-    const taskdata = {
-      id:Date.now(),
-      title: title,
-      task: task,
-      status: status,
-      startingDate: startingDate,
-      endingDate: endingDate,
-      selectedPeoples: selectedPeoples,
-      createdBy: currentUser.id, 
-      createdByName: currentUser.name,
-    };
-    const responce = createTask(taskdata);
-    setResponce(responce);
-    setResponceShow(true);
 
-    setInterval(() => {
-      setResponceShow(false);
-    }, 3000);
+      e.preventDefault();
+      const taskdata = {
+        id: Date.now(),
+        title: title,
+        task: task,
+        status: status,
+        startingDate: startingDate,
+        endingDate: endingDate,
+        selectedPeoples: selectedPeoples,
+        createdBy: currentUser.id,
+        createdByName: currentUser.name,
+      };
+      if (isEdit) {
+        taskdata.id = id;
+        const responce = handleEditTask(taskdata);
+        setResponce(responce);
+      }else{
+        const responce = createTask(taskdata);
+        setResponce(responce);
+      }
+      setResponceShow(true);
+
+      setInterval(() => {
+        setResponceShow(false);
+      }, 3000);
+    
   };
   return (
     <div className="auth-main">
@@ -121,7 +173,49 @@ const TaskForm = () => {
           <label htmlFor="exampleInputPassword1" className=" mb-3 form-label ">
             Select Workers
           </label>
-          {onlyWorkingUser.length !== 0
+          {
+            isEdit
+            ?
+            unselectedPeople.length !== 0
+            ? unselectedPeople.map((item) => {
+                return (
+                  <div className="mb-3 h-card">
+                    <label
+                      htmlFor="exampleInputPassword1"
+                      className="form-label"
+                    >
+                      {item.name}
+                    </label>
+                    <label
+                      htmlFor="exampleInputPassword1"
+                      className="form-label"
+                    >
+                      {item.email}
+                    </label>
+                    <label
+                      htmlFor="exampleInputPassword1"
+                      className="form-label"
+                    >
+                      {item.role}
+                    </label>
+                    <button
+                      className="btn btn-success"
+                      onClick={() => handleHire(item)}
+                    >
+                      Hire
+                    </button>
+                    <button
+                      className="btn btn-danger"
+                      onClick={() => handleReject(item)}
+                    >
+                      Reject
+                    </button>
+                  </div>
+                );
+              })
+            : null
+            :
+            onlyWorkingUser.length !== 0
             ? onlyWorkingUser.map((item) => {
                 return (
                   <div className="mb-3 h-card">
@@ -158,7 +252,8 @@ const TaskForm = () => {
                   </div>
                 );
               })
-            : null}
+            : null
+          }
         </div>
         <div className="mb-3 selected">
           <label htmlFor="exampleInputPassword1" className=" mb-3 form-label ">
@@ -226,7 +321,7 @@ const TaskForm = () => {
           className="btn btn-primary"
           onClick={handleSubmit}
         >
-          Submit
+          {isEdit ? "Update Task" : "Create Task"}
         </button>
       </div>
     </div>

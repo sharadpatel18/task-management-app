@@ -152,6 +152,7 @@ const handleEditTask = (data) => {
   taskData[index] = data;
   
   localStorage.setItem('task' , JSON.stringify(taskData));
+  return "Task is updated successfully"
 } 
 
 const handleDeleteTask = (data) => {

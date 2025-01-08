@@ -39,7 +39,8 @@ function App() {
               path="/login"
               element={<Login handleChange={handleChange} showName={showName}/>}
             />
-            <Route path="/taskform" element={<TaskForm />} />
+            <Route path="/taskform/:id" element={<TaskForm isEdit={true}/>} />
+            <Route path="/taskform" element={<TaskForm isEdit={false}/>} />
             <Route path="/history" element={<History />} />
             <Route path="/taskdetails/:id" element={<TaskDetails />} />
             <Route path="/subtaskform/:id" element={<SubTaskForm />} />
