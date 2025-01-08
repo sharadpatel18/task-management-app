@@ -80,4 +80,12 @@ day-9:
 ------------------------------------------------------
 
 today's work:
-  sorry due to my college work today i am busy so i add only two buttons for task and sub task edit and delete
+  sorry due to my college work today i am busy so i add only two buttons for task and sub task edit and delete.
+
+
+day-10:
+------------------------------------------------------
+
+today's work:
+  1.add a edit logic in task
+  2.add delete logic in task
