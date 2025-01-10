@@ -1,91 +1,29 @@
-day-1:
----------------------------------------
+# Task Management App
 
-create a react vite app and add to components
-1:- navbar
-2:- signup page 
-3:- login page
+## Overview
+Welcome to the Task Management App repository! This application is designed to create and manage tasks for employees, with functionality for login, task progress tracking, and role-based access control. Built using React, this app currently stores data in localStorage as it serves as a frontend learning project. Backend integration is planned for future updates.
 
-all component created using bootstap.
-and create a localstorage folder to store data and apply logic.
-create a authData.js file in localstorage folder to store and apply logic to create a user and login a user.
+## Features
+### Implemented
+- **User Authentication**: Secure login functionality.
+- **Task Creation**: Create tasks for employees, assign tasks, and manage task status.
+- **Task Progress Tracking**: Tasks progress through five stages: Create, Working, Bug, Error, Completed.
+- **Sub-task Management**: Add sub-tasks to main tasks, track errors, and update task status automatically.
+- **Role-based Access Control**: Only Managers, Developers, Designers, and Testers can access their specific tasks.
+- **Data Persistence**: All data is stored in localStorage.
 
+### Future Enhancements
+- **Backend Integration**: Use a backend service for data persistence and retrieval.
+- **Enhanced Task Features**: Additional task attributes and filtering options.
+- **Improved UI/UX**: Design enhancements for better user experience.
 
-day-2:
--------------------------------------------
+## Getting Started
+### Prerequisites
+- Node.js
+- npm (or yarn)
 
-complete a login process:
-  1.show name in nav bar after login without page reloading.
-  2.add a logout button in navbar.
-  3.check all function throw error without data and solved.
-  4. after solving 3 no imaging data is not available then code is throw some develoer created warning not error and no crash the app.
-
-complete a task form:
-  1.only manager is create a task.
-  2.html and some css part of taskForm is completed.
-
-extra work:
-  1.change a role of user
-
-day-3:
-----------------------------------------------
-
-complete a task creation process:
-  1.complete all logic to create and save task in local so=torage.
-  2.task is filter per user and also task is show to created user.
-  3.soled some error in this work
-
-
-day-4:
------------------------------------------------
-today's work:
-  1.create a task details component to show task data.
-  2.create a sub task form and store sub task in local storage.
-  3.indivisual task show is panding.
-  4.solved some errors.
-
-
-day-5:
--------------------------------------------------
-
-this day is my birthday so i am in leave.
-
-
-day-6:
--------------------------------------------------
-
-today's work:
-  1.learn ngrokx and add in this app.
-  2.status bar logic is updated.
-  3.and subTask complete button's size is to big to small.
-
-day-7:
----------------------------------------------------
-
-today's work:
-  1.create button logic are completed.
-  2.and all completed task show in history page.
-
-panding work on this day:
-  1.in task history details page show sub-task of this main task.
-
-
-day-8:
------------------------------------------------------
-
-today's work:
-  1.complete task filter(using id).
-
-day-9:
-------------------------------------------------------
-
-today's work:
-  sorry due to my college work today i am busy so i add only two buttons for task and sub task edit and delete.
-
-
-day-10:
-------------------------------------------------------
-
-today's work:
-  1.add a edit logic in task
-  2.add delete logic in task
+### Installation
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-username/task-management-app.git
+   cd task-management-app
